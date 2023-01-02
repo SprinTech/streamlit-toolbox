@@ -11,7 +11,7 @@ st.title("Penguin Classifier")
 st.write("Modify penguins characteristics to get prediction.")
 
 password_guess = st.text_input("Password")
-if password_guess != "streamlit_password":
+if password_guess != st.secrets["password"]:
     st.stop()
     
 penguin_file = st.file_uploader("Upload your penguin data")
