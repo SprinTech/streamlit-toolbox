@@ -1,6 +1,8 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -60,3 +62,22 @@ new_prediction = rfc.predict(
      sex_male]])
 prediction_species = unique_penguin_mapping[new_prediction][0]
 st.write(f"The penguin has chance to be {prediction_species} species")
+st.image("feature_importance.png")
+
+fig, ax = plt.subplots()
+ax = sns.displot(x=penguin_df["bill_length_mm"], hue=penguin_df["species"])
+plt.axvline(bill_length)
+plt.title("Bill Length by Species")
+st.pyplot(ax)
+
+fig, ax = plt.subplots()
+ax = sns.displot(x=penguin_df["bill_depth_mm"], hue=penguin_df["species"])
+plt.axvline(bill_depth)
+plt.title("Bill Depth by Species")
+st.pyplot(ax)
+
+fig, ax = plt.subplots()
+ax = sns.displot(x=penguin_df["flipper_length_mm"], hue=penguin_df["species"])
+plt.axvline(flipper_length)
+plt.title("Flipper Length by Species")
+st.pyplot(ax)

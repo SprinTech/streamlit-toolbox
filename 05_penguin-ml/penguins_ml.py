@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 import pickle
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
@@ -26,3 +28,10 @@ with open("random_forest_penguin.pickle", "wb") as f:
 with open("output_penguin.pickle", "wb") as f:
     pickle.dump(uniques, f)
 
+fig, ax = plt.subplots()
+ax = sns.barplot(x=rfc.feature_importances_, y=features.columns)
+plt.title("Which features are the most import for species predictions ?")
+plt.xlabel("Importance")
+plt.ylabel("Feature")
+plt.tight_layout()
+plt.savefig("feature_importance.png")
