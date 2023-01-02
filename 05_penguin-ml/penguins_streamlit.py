@@ -10,6 +10,10 @@ from sklearn.model_selection import train_test_split
 st.title("Penguin Classifier")
 st.write("Modify penguins characteristics to get prediction.")
 
+password_guess = st.text_input("Password")
+if password_guess != "streamlit_password":
+    st.stop()
+    
 penguin_file = st.file_uploader("Upload your penguin data")
 if penguin_file is None:
     with open("random_forest_penguin.pickle", "rb") as f:
