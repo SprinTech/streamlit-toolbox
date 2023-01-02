@@ -16,9 +16,9 @@ X_train, X_test, y_train, y_test = train_test_split(features, output, test_size=
 rfc = RandomForestClassifier(random_state=15)
 rfc.fit(X_train, y_train)
 y_pred = rfc.predict(X_test)
-score = rounf(accuracy_score(y_pred, y_test), 2)
+score = round(accuracy_score(y_pred, y_test), 2)
 
-print(f"Our accuracy score for this model is {score}")
+print(f"Your accuracy score for this model is {score}")
 
 with open("random_forest_penguin.pickle", "wb") as f:
     pickle.dump(rfc, f)

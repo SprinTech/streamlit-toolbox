@@ -1,6 +1,9 @@
 import streamlit as st
 import pickle
 import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 
 st.title("Penguin Classifier")
 st.write("Modify penguins characteristics to get prediction.")
@@ -15,14 +18,28 @@ if penguin_file is None:
 
 else:
     penguin_df = pd.read_csv(penguin_file)
+    penguin_df.dropna(inplace=True)
+    output = penguin_df["species"]
+    features = penguin_df.drop(columns=["species", "year"])
+    features = pd.get_dummies(features)
 
-island = st.selectbox("Penguin Island", options=("Biscoe", "Dream", "Torgerson"))
-sex = st.selectbox("Sex", options=("Female", "Male"))
-bill_length = st.number_input("Bill Length (mm)", min_value=0)
-bill_depth = st.number_input("Bill Depth (mm)", min_value=0)
-flipper_length = st.number_input("Flipper Depth (mm)", min_value=0)
-body_mass = st.number_input("Body Mass (g)", min_value=0)
+    output, unique_penguin_mapping = pd.factorize(output)
 
+    X_train, X_test, y_train, y_test = train_test_split(features, output, test_size=.8)
+    rfc = RandomForestClassifier(random_state=15)
+    rfc.fit(X_train, y_train)
+    y_pred = rfc.predict(X_test)
+    score = round(accuracy_score(y_pred, y_test), 2)
+
+with st.form("user_inputs"):
+    island = st.selectbox("Penguin Island", options=("Biscoe", "Dream", "Torgerson"))
+    sex = st.selectbox("Sex", options=("Female", "Male"))
+    bill_length = st.number_input("Bill Length (mm)", min_value=0)
+    bill_depth = st.number_input("Bill Depth (mm)", min_value=0)
+    flipper_length = st.number_input("Flipper Depth (mm)", min_value=0)
+    body_mass = st.number_input("Body Mass (g)", min_value=0)
+    st.form_submit_button()
+    
 island_biscoe, island_dream, island_torgerson = 0, 0, 0
 
 if island == "Biscoe":
