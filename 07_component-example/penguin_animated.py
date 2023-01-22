@@ -4,6 +4,8 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from pandas_profiling import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
 
 
 def load_lottieurl(url: str):
@@ -39,3 +41,7 @@ plt.xlabel(selected_x_var)
 plt.ylabel(selected_y_var)
 plt.title(f"Scatterplot of Palmer's Penguins")
 st.pyplot(fig)
+
+st.title("Pandas profiling of penguin dataset")
+penguin_profile = ProfileReport(penguins_df, explorative=True)
+st_profile_report(penguin_profile)
